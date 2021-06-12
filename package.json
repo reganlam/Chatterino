@@ -1,0 +1,22 @@
+{
+  "name": "chatterino",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reganlam/Chatterino.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reganlam/Chatterino/issues"
+  },
+  "homepage": "https://github.com/reganlam/Chatterino#readme",
+  "devDependencies": {
+    "electron": "^13.1.2"
+  }
+}
