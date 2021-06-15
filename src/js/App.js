@@ -1,8 +1,17 @@
 import React from "react";
 
 export default function App() {
-	const title = "Hello World My Perfect Application";
+	const title = "Hello World";
 	const enhancedTitle = title + " - React App!";
 
-	return <h1>{enhancedTitle}</h1>;
+	const sendNotification = () => {
+		electron.notificationApi.sendNotification("My custom message!");
+	};
+
+	return (
+		<>
+			<h1>{enhancedTitle}</h1>
+			<button onClick={sendNotification}>Send Notification</button>
+		</>
+	);
 }
