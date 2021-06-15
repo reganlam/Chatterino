@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "watch": "webpack --config webpack.common.js --watch"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,21 @@
   },
   "homepage": "https://github.com/reganlam/Chatterino#readme",
   "devDependencies": {
-    "electron": "^13.1.2"
+    "@babel/core": "^7.14.6",
+    "electron": "^13.1.2",
+    "electron-reload": "^1.5.0"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.35.0",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.39.0",
+    "webpack-cli": "^4.7.2"
   }
 }
