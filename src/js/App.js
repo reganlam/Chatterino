@@ -1,5 +1,9 @@
 import React from "react";
 import HomeView from "./views/HomeView";
+import LoginView from "./views/LoginView";
+import RegisterView from "./views/RegisterView";
+import SettingsView from "./views/SettingsView";
+import ChatView from "./views/ChatView";
 import Navbar from "./components/Navbar";
 
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
@@ -11,14 +15,17 @@ export default function App() {
 			<Navbar />
 			<div className="content-wrapper">
 				<Switch>
+					<Route path="/chat/:id">
+						<ChatView />
+					</Route>
 					<Route path="/settings">
-						<h1>I am settings View</h1>
+						<SettingsView />
 					</Route>
 					<Route path="/login">
-						<h1>I am login View</h1>
+						<LoginView />
 					</Route>
 					<Route path="/register">
-						<h1>I am register View</h1>
+						<RegisterView />
 					</Route>
 					<Route path="/">
 						<HomeView />

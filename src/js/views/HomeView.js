@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import JoinedChats from "../components/JoinedChats";
 import AvailableChats from "../components/AvailableChats";
 import TitleView from "../components/shared/TitleView";
 
+import { fetchChats } from "../api/chats";
+
 export default function HomeView() {
+	useEffect(() => {
+		fetchChats();
+	}, []);
+
 	return (
 		<div className="row no-gutters fh">
 			<div className="col-3 fh">
