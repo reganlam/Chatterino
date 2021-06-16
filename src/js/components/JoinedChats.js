@@ -1,13 +1,10 @@
 import React from "react";
+import ChatSearch from "./ChatSearch";
 
 export default function JoinedChats() {
 	return (
 		<div className="list-container">
-			<div className="chat-search-box">
-				<div className="input-group">
-					<input className="form-control" placeholder="Search" />
-				</div>
-			</div>
+			<ChatSearch />
 			<ul className="items">
 				<li onClick={() => {}} className="item">
 					<div className="item-status">

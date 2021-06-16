@@ -9,8 +9,8 @@ if (isDev) {
 
 function createWindow() {
 	const win = new BrowserWindow({
-		width: 1200,
-		height: 600,
+		width: 1500,
+		height: 800,
 		webPreferences: {
 			// Use node modules
 			nodeIntegration: false,
