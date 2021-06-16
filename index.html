@@ -5,17 +5,13 @@
 		<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
 		<meta
 			http-equiv="Content-Security-Policy"
-			content="default-src 'self'; script-src 'self'"
-		/>
-		<meta
-			http-equiv="X-Content-Security-Policy"
-			content="default-src 'self'; script-src 'self'"
+			content="script-src 'self'"
 		/>
 		<title>Chatterino</title>
 	</head>
 
 	<body>
-		<div id="electronChat"></div>
+		<div id="chatApp"></div>
 	</body>
 	<script src="./build/js/app.js"></script>
 </html>
