@@ -19,6 +19,7 @@
   "homepage": "https://github.com/reganlam/Chatterino#readme",
   "devDependencies": {
     "@babel/core": "^7.14.6",
+    "dotenv-webpack": "^7.0.3",
     "electron": "^13.1.2",
     "electron-reload": "^1.5.0"
   },
@@ -31,7 +32,9 @@
     "firebase": "^8.6.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
+    "redux": "^4.1.0",
     "sass": "^1.35.0",
     "sass-loader": "^12.1.0",
     "style-loader": "^2.0.0",

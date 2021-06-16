@@ -7,6 +7,7 @@ import { fetchChats } from "../api/chats";
 
 export default function HomeView() {
 	useEffect(() => {
+		// debugger;
 		fetchChats();
 	}, []);
 
