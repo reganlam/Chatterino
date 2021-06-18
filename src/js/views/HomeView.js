@@ -19,17 +19,18 @@ export default function HomeView() {
 	return (
 		<div className="row no-gutters fh">
 			<div className="col-3 fh">
-				{JSON.stringify(chats)}
+				{/*TESTING*/}
+				{/*{JSON.stringify(chats)}*/}
 
 				{/*JoinedChats Component*/}
-				<JoinedChats />
+				<JoinedChats chats={chats} />
 			</div>
 			<div className="col-9 fh">
 				{/*TitleView Component*/}
 				<TitleView />
 
 				{/*AvailableChats Component*/}
-				<AvailableChats />
+				<AvailableChats chats={chats} />
 			</div>
 		</div>
 	);
