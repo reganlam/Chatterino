@@ -6,6 +6,15 @@ const createUserProfile = (userProfile) => {
 	db.collection("profiles").doc(userProfile.uid).set(userProfile);
 };
 
+export const getUserProfile = async (uid) => {
+	try {
+		const userProfile = await db.collection("profiles").doc(uid).get();
+		return userProfile.data();
+	} catch (error) {
+		return Promise.reject(error.message);
+	}
+};
+
 export const register = async ({ email, username, password, avatar }) => {
 	try {
 		const { user } = await firebase
@@ -25,4 +34,16 @@ export const register = async ({ email, username, password, avatar }) => {
 	} catch (error) {
 		return Promise.reject(error.message);
 	}
+};
+
+export const login = async ({ email, password }) => {
+	firebase.auth().signInWithEmailAndPassword(email, password);
+};
+
+export const logout = async () => {
+	firebase.auth().signOut();
+};
+
+export const onAuthStateChanges = (userAuth) => {
+	firebase.auth().onAuthStateChanged(userAuth);
 };

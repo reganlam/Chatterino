@@ -1,8 +1,13 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { logoutUser } from "../actions/auth";
 
 export default function Navbar() {
+	const dispatch = useDispatch();
 	const history = useHistory();
+
+	const user = useSelector(({ auth }) => auth.user);
 
 	return (
 		<div className="chat-navbar">
@@ -20,21 +25,37 @@ export default function Navbar() {
 					>
 						Settings
 					</button>
-				</div>
-				<div className="chat-navbar-inner-right">
-					<span className="logged-in-user">Hi User</span>
 					<button
-						onClick={() => history.push("/register")}
+						onClick={() => history.push("/home")}
 						className="btn btn-outline-danger ml-2"
 					>
-						Logout
+						TEST
 					</button>
 					<button
-						onClick={() => history.push("/login")}
+						onClick={() => history.push("/")}
 						className="btn btn-outline-success ml-2"
 					>
 						Login
 					</button>
+				</div>
+				<div className="chat-navbar-inner-right">
+					{user && (
+						<>
+							<img
+								className="avatar mr-2"
+								src={user.avatar}
+							></img>
+							<span className="logged-in-user">
+								Hi, {user.username}
+							</span>
+							<button
+								onClick={() => dispatch(logoutUser())}
+								className="btn btn-outline-danger ml-3"
+							>
+								Logout
+							</button>
+						</>
+					)}
 				</div>
 			</nav>
 		</div>
