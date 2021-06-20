@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 const createUserProfile = (userProfile) => {
-	db.collection("profiles").doc(userProfile.uid).set(userProfile);
+	return db.collection("profiles").doc(userProfile.uid).set(userProfile);
 };
 
 export const getUserProfile = async (uid) => {
@@ -16,34 +16,32 @@ export const getUserProfile = async (uid) => {
 };
 
 export const register = async ({ email, username, password, avatar }) => {
-	try {
-		const { user } = await firebase
-			.auth()
-			.createUserWithEmailAndPassword(email, password);
-
-		const userProfile = {
-			uid: user.uid,
-			joinedChats: [],
-			email,
-			username,
-			password,
-			avatar,
-		};
-
-		await createUserProfile(userProfile);
-	} catch (error) {
-		return Promise.reject(error.message);
-	}
+	return firebase
+		.auth()
+		.createUserWithEmailAndPassword(email, password)
+		.then((snapshot) => {
+			createUserProfile({
+				uid: snapshot.user.uid,
+				joinedChats: [],
+				email,
+				username,
+				password,
+				avatar,
+			});
+		})
+		.catch((error) => {
+			return Promise.reject(error.message);
+		});
 };
 
-export const login = async ({ email, password }) => {
-	firebase.auth().signInWithEmailAndPassword(email, password);
+export const login = ({ email, password }) => {
+	return firebase.auth().signInWithEmailAndPassword(email, password);
 };
 
-export const logout = async () => {
-	firebase.auth().signOut();
+export const logout = () => {
+	return firebase.auth().signOut();
 };
 
 export const onAuthStateChanges = (userAuth) => {
-	firebase.auth().onAuthStateChanged(userAuth);
+	return firebase.auth().onAuthStateChanged(userAuth);
 };

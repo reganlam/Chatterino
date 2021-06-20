@@ -1,10 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/auth";
 
 export default function LoginForm() {
 	const dispatch = useDispatch();
+
+	const error = useSelector(({ auth }) => auth.login.error);
 
 	const { register, handleSubmit } = useForm();
 
@@ -47,8 +49,10 @@ export default function LoginForm() {
 						id="password"
 					/>
 				</div>
-				{false && (
-					<div className="alert alert-danger small">Some error</div>
+				{error && (
+					<div className="alert alert-danger small">
+						{error.message}
+					</div>
 				)}
 				<button type="submit" className="btn btn-outline-primary">
 					Login
