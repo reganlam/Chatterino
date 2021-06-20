@@ -38,6 +38,7 @@ export const loginUser = (formData) => (dispatch) => {
 		});
 };
 
+// TODO: Convert out async/await
 export const logoutUser = () => async (dispatch) => {
 	try {
 		await api.logout();
@@ -47,8 +48,22 @@ export const logoutUser = () => async (dispatch) => {
 	}
 };
 
+// TODO: Convert out async/await
 export const listenToAuthChanges = () => async (dispatch) => {
 	dispatch({ type: AUTH_ON_INIT });
+
+	// return api.onAuthStateChanges(async (authUser) => {
+	// 	if (authUser) {
+	// 		return api
+	// 			.getUserProfile(authUser.uid)
+	// 			.then((userProfile) =>
+	// 				dispatch({ type: AUTH_ON_SUCCESS, user: userProfile })
+	// 			);
+	// 	} else {
+	// 		dispatch({ type: AUTH_ON_ERROR });
+	// 	}
+	// });
+
 	try {
 		await api.onAuthStateChanges(async (userAuth) => {
 			if (userAuth) {

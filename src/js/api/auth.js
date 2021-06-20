@@ -15,6 +15,7 @@ export const getUserProfile = (uid) => {
 		.then((snapshot) => snapshot.data());
 };
 
+// TODO: Catch
 export const register = ({ email, username, password, avatar }) => {
 	return firebase
 		.auth()
@@ -28,9 +29,6 @@ export const register = ({ email, username, password, avatar }) => {
 				password,
 				avatar,
 			});
-		})
-		.catch((error) => {
-			return Promise.reject(error.message);
 		});
 };
 

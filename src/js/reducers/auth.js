@@ -12,22 +12,30 @@ import {
 	AUTH_LOGIN_SUCCESS,
 } from "../actions/types";
 
-const loginReducer = (state = { error: null }, action) => {
-	switch (action.type) {
-		case AUTH_LOGIN_ERROR:
-			return { error: action.error };
-		default:
-			return state;
-	}
+const createLoginReducer = () => {
+	const error = (state = null, action) => {
+		switch (action.type) {
+			case AUTH_LOGIN_ERROR:
+				return action.error;
+			default:
+				return state;
+		}
+	};
+
+	return combineReducers({ error });
 };
 
-const registerReducer = (state = { error: null }, action) => {
-	switch (action.type) {
-		case AUTH_REGISTER_ERROR:
-			return { error: action.error };
-		default:
-			return state;
-	}
+const createRegisterReducer = () => {
+	const error = (state = null, action) => {
+		switch (action.type) {
+			case AUTH_REGISTER_ERROR:
+				return action.error;
+			default:
+				return state;
+		}
+	};
+
+	return combineReducers({ error });
 };
 
 const createAuthReducer = () => {
@@ -60,8 +68,8 @@ const createAuthReducer = () => {
 	return combineReducers({
 		user,
 		isChecking,
-		login: loginReducer,
-		register: registerReducer,
+		login: createLoginReducer(),
+		register: createRegisterReducer(),
 	});
 };
 
@@ -91,3 +99,21 @@ export default createAuthReducer();
 // 		}
 // 	}
 // }
+
+// const loginReducer = (state = { error: null }, action) => {
+// 	switch (action.type) {
+// 		case AUTH_LOGIN_ERROR:
+// 			return { error: action.error };
+// 		default:
+// 			return state;
+// 	}
+// };
+
+// const registerReducer = (state = { error: null }, action) => {
+// 	switch (action.type) {
+// 		case AUTH_REGISTER_ERROR:
+// 			return { error: action.error };
+// 		default:
+// 			return state;
+// 	}
+// };
