@@ -6,16 +6,16 @@ const createUserProfile = (userProfile) => {
 	return db.collection("profiles").doc(userProfile.uid).set(userProfile);
 };
 
-export const getUserProfile = async (uid) => {
-	try {
-		const userProfile = await db.collection("profiles").doc(uid).get();
-		return userProfile.data();
-	} catch (error) {
-		return Promise.reject(error.message);
-	}
+// TODO: Catch
+export const getUserProfile = (uid) => {
+	return db
+		.collection("profiles")
+		.doc(uid)
+		.get()
+		.then((snapshot) => snapshot.data());
 };
 
-export const register = async ({ email, username, password, avatar }) => {
+export const register = ({ email, username, password, avatar }) => {
 	return firebase
 		.auth()
 		.createUserWithEmailAndPassword(email, password)
