@@ -6,45 +6,65 @@ import SettingsView from "./views/SettingsView";
 import ChatView from "./views/ChatView";
 import Navbar from "./components/Navbar";
 
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import {
+	HashRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import configureStore from "./store";
 
 import { listenToAuthChanges } from "./actions/auth";
 
-const store = configureStore();
-
-export default function App() {
-	useEffect(() => {
-		store.dispatch(listenToAuthChanges());
-	}, []);
+const PrivateRoute = ({ component: Component, ...rest }) => {
+	const user = useSelector(({ auth }) => auth.user);
 
 	return (
+		<Route
+			{...rest}
+			render={(props) =>
+				user ? <Component {...props} /> : <Redirect to="/" />
+			}
+		/>
+	);
+};
+
+const ChatApp = () => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(listenToAuthChanges());
+	}, [dispatch]);
+
+	return (
+		<Router>
+			{/*Navbar Component*/}
+			<Navbar />
+
+			<div className="content-wrapper">
+				<Switch>
+					<Route path="/" exact>
+						<WelcomeView />
+					</Route>
+					<Route path="/register">
+						<RegisterView />
+					</Route>
+					<PrivateRoute component={ChatView} path="/chat/:id" />
+					<PrivateRoute component={SettingsView} path="/settings" />
+					<PrivateRoute component={HomeView} path="/home" />
+				</Switch>
+			</div>
+		</Router>
+	);
+};
+
+const store = configureStore();
+export default function App() {
+	return (
 		<Provider store={store}>
-			<Router>
-				{/*Navbar Component*/}
-				<Navbar />
-				<div className="content-wrapper">
-					<Switch>
-						<Route path="/" exact>
-							<WelcomeView />
-						</Route>
-						<Route path="/chat/:id">
-							<ChatView />
-						</Route>
-						<Route path="/settings">
-							<SettingsView />
-						</Route>
-						<Route path="/register">
-							<RegisterView />
-						</Route>
-						<Route path="/home">
-							<HomeView />
-						</Route>
-					</Switch>
-				</div>
-			</Router>
+			<ChatApp />
 		</Provider>
 	);
 }
