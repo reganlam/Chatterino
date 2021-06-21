@@ -26,16 +26,16 @@ export default function Navbar() {
 						Settings
 					</button>
 					<button
-						onClick={() => history.push("/home")}
-						className="btn btn-outline-danger ml-2"
-					>
-						TEST
-					</button>
-					<button
 						onClick={() => history.push("/")}
 						className="btn btn-outline-success ml-2"
 					>
 						Login
+					</button>
+					<button
+						onClick={() => history.push("/home")}
+						className="btn btn-outline-danger ml-2"
+					>
+						TEST
 					</button>
 				</div>
 				<div className="chat-navbar-inner-right">

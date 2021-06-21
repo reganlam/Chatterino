@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import HomeView from "./views/HomeView";
 import WelcomeView from "./views/WelcomeView";
-import RegisterView from "./views/RegisterView";
 import SettingsView from "./views/SettingsView";
 import ChatView from "./views/ChatView";
-import Navbar from "./components/Navbar";
 
 import {
 	HashRouter as Router,
@@ -40,16 +38,10 @@ const ChatApp = () => {
 
 	return (
 		<Router>
-			{/*Navbar Component*/}
-			<Navbar />
-
 			<div className="content-wrapper">
 				<Switch>
 					<Route path="/" exact>
 						<WelcomeView />
-					</Route>
-					<Route path="/register">
-						<RegisterView />
 					</Route>
 					<PrivateRoute component={ChatView} path="/chat/:id" />
 					<PrivateRoute component={SettingsView} path="/settings" />

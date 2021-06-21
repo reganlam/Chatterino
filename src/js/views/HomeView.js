@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import JoinedChats from "../components/JoinedChats";
 import AvailableChats from "../components/AvailableChats";
 import TitleView from "../components/shared/TitleView";
+import BaseLayout from "../layouts/Base";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChats } from "../actions/chats";
@@ -17,21 +18,23 @@ export default function HomeView() {
 	}, [dispatch]);
 
 	return (
-		<div className="row no-gutters fh">
-			<div className="col-3 fh">
-				{/*TESTING*/}
-				{/*{JSON.stringify(chats)}*/}
+		<BaseLayout>
+			<div className="row no-gutters fh">
+				<div className="col-3 fh">
+					{/*TESTING*/}
+					{/*{JSON.stringify(chats)}*/}
 
-				{/*JoinedChats Component*/}
-				<JoinedChats chats={chats} />
-			</div>
-			<div className="col-9 fh">
-				{/*TitleView Component*/}
-				<TitleView />
+					{/*JoinedChats Component*/}
+					<JoinedChats chats={chats} />
+				</div>
+				<div className="col-9 fh">
+					{/*TitleView Component*/}
+					<TitleView />
 
-				{/*AvailableChats Component*/}
-				<AvailableChats chats={chats} />
+					{/*AvailableChats Component*/}
+					<AvailableChats chats={chats} />
+				</div>
 			</div>
-		</div>
+		</BaseLayout>
 	);
 }
