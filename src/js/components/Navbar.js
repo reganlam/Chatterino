@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logoutUser } from "../actions/auth";
+import BackButton from "./Shared/BackButton";
 
-export default function Navbar() {
+export default function Navbar({ canGoBack }) {
 	const dispatch = useDispatch();
-	const history = useHistory();
 
 	const user = useSelector(({ auth }) => auth.user);
 
@@ -13,30 +13,16 @@ export default function Navbar() {
 		<div className="chat-navbar">
 			<nav className="chat-navbar-inner">
 				<div className="chat-navbar-inner-left">
-					<button
-						onClick={() => history.goBack()}
-						className="btn btn-outline-primary"
-					>
-						Back
-					</button>
-					<button
-						onClick={() => history.push("/settings")}
-						className="btn btn-outline-success ml-2"
+					{canGoBack && <BackButton />}
+					<Link
+						to="/settings"
+						className="btn btn-outline-secondary ml-2"
 					>
 						Settings
-					</button>
-					<button
-						onClick={() => history.push("/")}
-						className="btn btn-outline-success ml-2"
-					>
-						Login
-					</button>
-					<button
-						onClick={() => history.push("/home")}
-						className="btn btn-outline-danger ml-2"
-					>
+					</Link>
+					<Link to="/home" className="btn btn-outline-danger ml-2">
 						TEST
-					</button>
+					</Link>
 				</div>
 				<div className="chat-navbar-inner-right">
 					{user && (

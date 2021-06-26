@@ -9,7 +9,7 @@ export default function ChatView() {
 	const { id } = useParams();
 
 	return (
-		<BaseLayout>
+		<BaseLayout canGoBack={true}>
 			<div className="row no-gutters fh">
 				<div className="col-3 fh">
 					<ChatUsersList />

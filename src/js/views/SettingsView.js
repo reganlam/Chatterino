@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/Base";
 
 export default function SettingsView() {
 	return (
-		<BaseLayout>
+		<BaseLayout canGoBack={true}>
 			<div className="centered-view">
 				<div className="centered-container">
 					<form className="centered-container-form">

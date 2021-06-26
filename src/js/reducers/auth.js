@@ -6,10 +6,8 @@ import {
 	AUTH_ON_SUCCESS,
 	AUTH_REGISTER_ERROR,
 	AUTH_REGISTER_INIT,
-	AUTH_REGISTER_SUCCESS,
 	AUTH_LOGIN_ERROR,
 	AUTH_LOGIN_INIT,
-	AUTH_LOGIN_SUCCESS,
 } from "../actions/types";
 
 const createLoginReducer = () => {
