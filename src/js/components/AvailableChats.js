@@ -11,7 +11,7 @@ export default function AvailableChats({ chats }) {
 		const isConfirm = confirm(`Join ${chat.name}?`);
 
 		if (isConfirm) {
-			dispatch(joinChat(user.uid, chat.id));
+			dispatch(joinChat(user.uid, chat));
 		}
 	};
 

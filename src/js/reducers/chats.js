@@ -3,6 +3,7 @@ import {
 	CHATS_FETCH_INIT,
 	CHATS_FETCH_RESET,
 	CHATS_FETCH_SUCCESS,
+	CHATS_JOIN_SUCCESS,
 } from "../actions/types";
 
 const DEFAULT_STATE = {
@@ -16,6 +17,8 @@ const createChatReducer = () => {
 				return [];
 			case CHATS_FETCH_SUCCESS:
 				return action.joined;
+			case CHATS_JOIN_SUCCESS:
+				return [...state, action.chat];
 			default:
 				return state;
 		}
@@ -26,6 +29,8 @@ const createChatReducer = () => {
 				return [];
 			case CHATS_FETCH_SUCCESS:
 				return action.available;
+			case CHATS_JOIN_SUCCESS:
+				return state.filter((chat) => chat.id != action.chat.id);
 			default:
 				return state;
 		}
