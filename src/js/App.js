@@ -3,6 +3,7 @@ import HomeView from "./views/HomeView";
 import WelcomeView from "./views/WelcomeView";
 import SettingsView from "./views/SettingsView";
 import ChatView from "./views/ChatView";
+import ChatCreateView from "./views/ChatCreateView";
 import LoadingView from "./components/Shared/LoadingView";
 
 import {
@@ -65,6 +66,10 @@ const ChatApp = () => {
 					<Route path="/" exact>
 						<WelcomeView />
 					</Route>
+					<PrivateRoute
+						component={ChatCreateView}
+						path="/chat/create"
+					/>
 					<PrivateRoute component={ChatView} path="/chat/:id" />
 					<PrivateRoute component={SettingsView} path="/settings" />
 					<PrivateRoute component={HomeView} path="/home" />

@@ -20,9 +20,6 @@ export default function Navbar({ canGoBack }) {
 					>
 						Settings
 					</Link>
-					<Link to="/home" className="btn btn-outline-danger ml-2">
-						TEST
-					</Link>
 				</div>
 				<div className="chat-navbar-inner-right">
 					{user && (
@@ -36,7 +33,7 @@ export default function Navbar({ canGoBack }) {
 							</span>
 							<button
 								onClick={() => dispatch(logoutUser())}
-								className="btn btn-outline-danger ml-3"
+								className="btn btn-outline-secondary ml-3"
 							>
 								Logout
 							</button>

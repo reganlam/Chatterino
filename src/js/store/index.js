@@ -27,5 +27,10 @@ export default function configureStore() {
 		applyMiddleware(...middlewares)
 	);
 
+	// TESTING
+	if (process.env.NODE_ENV === "development") {
+		window.store = store;
+	}
+
 	return store;
 }

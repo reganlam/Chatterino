@@ -11,3 +11,11 @@ const extractSnapshotData = (snapshot) => {
 export const fetchChats = () => {
 	return db.collection("chats").get().then(extractSnapshotData);
 };
+
+// chatData = {name, description, image, admin, joinedUsers}
+export const createChat = (chatData) => {
+	return db
+		.collection("chats")
+		.add(chatData)
+		.then((docRef) => docRef.id);
+};
