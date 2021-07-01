@@ -12,8 +12,8 @@ import { fetchChats } from "../actions/chats";
 export default function HomeView() {
 	const dispatch = useDispatch();
 
-	// const chats = useSelector((state) => state.chats.items);
-	const chats = useSelector(({ chats }) => chats.items);
+	const joinedChats = useSelector(({ chats }) => chats.joined);
+	const availableChats = useSelector(({ chats }) => chats.available);
 
 	useEffect(() => {
 		Notification.setup();
@@ -27,7 +27,7 @@ export default function HomeView() {
 					{/*TESTING*/}
 					{/*{JSON.stringify(chats)}*/}
 
-					<JoinedChats chats={chats} />
+					<JoinedChats chats={joinedChats} />
 				</div>
 				<div className="col-9 fh">
 					<TitleView text="Choose your channel">
@@ -38,7 +38,7 @@ export default function HomeView() {
 							New
 						</Link>
 					</TitleView>
-					<AvailableChats chats={chats} />
+					<AvailableChats chats={availableChats} />
 				</div>
 			</div>
 		</BaseLayout>
