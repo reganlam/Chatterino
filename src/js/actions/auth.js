@@ -16,6 +16,7 @@ import {
 	AUTH_REGISTER_ERROR,
 	AUTH_REGISTER_SUCCESS,
 	AUTH_LOGIN_INIT,
+	CHATS_FETCH_RESET,
 } from "./types";
 
 export const registerUser = (formData) => (dispatch) => {
@@ -47,6 +48,7 @@ export const logoutUser = () => async (dispatch) => {
 	try {
 		await api.logout();
 		dispatch({ type: AUTH_LOGOUT_SUCCESS });
+		dispatch({ type: CHATS_FETCH_RESET });
 	} catch (error) {
 		return Promise.reject(error.message);
 	}

@@ -24,16 +24,13 @@ export default function HomeView() {
 		<BaseLayout>
 			<div className="row no-gutters fh">
 				<div className="col-3 fh">
-					{/*TESTING*/}
-					{/*{JSON.stringify(chats)}*/}
-
 					<JoinedChats chats={joinedChats} />
 				</div>
 				<div className="col-9 fh">
 					<TitleView text="Choose your channel">
 						<Link
 							to="/chat/create"
-							className="btn btn-outline-primary align-middle"
+							className="btn btn-outline-primary"
 						>
 							New
 						</Link>

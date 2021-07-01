@@ -1,5 +1,9 @@
 import { combineReducers } from "redux";
-import { CHATS_FETCH_INIT, CHATS_FETCH_SUCCESS } from "../actions/types";
+import {
+	CHATS_FETCH_INIT,
+	CHATS_FETCH_RESET,
+	CHATS_FETCH_SUCCESS,
+} from "../actions/types";
 
 const DEFAULT_STATE = {
 	items: [],
@@ -8,6 +12,8 @@ const DEFAULT_STATE = {
 const createChatReducer = () => {
 	const joined = (state = [], action) => {
 		switch (action.type) {
+			case CHATS_FETCH_RESET:
+				return [];
 			case CHATS_FETCH_SUCCESS:
 				return action.joined;
 			default:
@@ -16,6 +22,8 @@ const createChatReducer = () => {
 	};
 	const available = (state = [], action) => {
 		switch (action.type) {
+			case CHATS_FETCH_RESET:
+				return [];
 			case CHATS_FETCH_SUCCESS:
 				return action.available;
 			default:
