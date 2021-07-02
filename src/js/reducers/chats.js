@@ -1,9 +1,12 @@
 import { combineReducers } from "redux";
+import { createReducer } from "@reduxjs/toolkit";
+
 import {
 	CHATS_FETCH_INIT,
 	CHATS_FETCH_RESET,
 	CHATS_FETCH_SUCCESS,
 	CHATS_JOIN_SUCCESS,
+	CHATS_SET_ACTIVE_CHAT,
 } from "../actions/types";
 
 const DEFAULT_STATE = {
@@ -36,7 +39,17 @@ const createChatReducer = () => {
 		}
 	};
 
-	return combineReducers({ joined, available });
+	const activeChats = createReducer(
+		{},
+		{
+			CHATS_SET_ACTIVE_CHAT: (state, action) => {
+				const { chat } = action;
+				state[chat.id] = chat;
+			},
+		}
+	);
+
+	return combineReducers({ joined, available, activeChats });
 };
 
 export default createChatReducer();

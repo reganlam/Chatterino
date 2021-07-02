@@ -35,3 +35,13 @@ export const createChat = (chatData) => {
 		.add(chatData)
 		.then((docRef) => docRef.id);
 };
+
+export const subscribeToChat = (chatId, onSubscribe) => {
+	return db
+		.collection("chats")
+		.doc(chatId)
+		.onSnapshot((snapshot) => {
+			const chat = { id: snapshot.id, ...snapshot.data() };
+			onSubscribe(chat);
+		});
+};

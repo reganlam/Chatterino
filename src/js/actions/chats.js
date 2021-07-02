@@ -6,6 +6,7 @@ import {
 	CHATS_JOIN_SUCCESS,
 	CHATS_FETCH_INIT,
 	CHATS_FETCH_SUCCESS,
+	CHATS_SET_ACTIVE_CHAT,
 } from "./types";
 
 // returns sortedChat[]
@@ -51,11 +52,34 @@ export const createChat = (formData, userId) => (dispatch) => {
 			dispatch({ type: CHATS_CREATE_SUCCESS });
 			return chatId;
 		})
-		.then((chatId) => api.joinChat(userId, chatId));
+		.then((chatId) => {
+			api.joinChat(userId, chatId);
+			dispatch({
+				type: CHATS_JOIN_SUCCESS,
+				chat: { ...chatData, id: chatId },
+			});
+		});
 };
 
 export const joinChat = (userId, chat) => (dispatch) => {
 	return api.joinChat(userId, chat.id).then((_) => {
 		dispatch({ type: CHATS_JOIN_SUCCESS, chat });
+	});
+};
+
+// API returns chat snapshot data as (chat)
+export const subscribeToChat = (chatId) => (dispatch) => {
+	return api.subscribeToChat(chatId, async (chat) => {
+		const joinedUsers = await Promise.all(
+			chat.joinedUsers.map(async (user) => {
+				const userSnapshot = await user.get();
+
+				return { id: userSnapshot.id, ...userSnapshot.data() };
+			})
+		);
+
+		chat.joinedUsers = joinedUsers;
+
+		dispatch({ type: CHATS_SET_ACTIVE_CHAT, chat });
 	});
 };

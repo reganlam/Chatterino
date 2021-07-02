@@ -13,14 +13,8 @@ export default function WelcomeView() {
 
 	// const chats = useSelector((state) => state.auth.user);
 	const user = useSelector(({ auth }) => auth.user);
-	const isChecking = useSelector(({ auth }) => auth.isChecking);
-
 	if (user) {
 		return <Redirect to="/home" />;
-	}
-
-	if (isChecking) {
-		return <LoadingView />;
 	}
 
 	return (
