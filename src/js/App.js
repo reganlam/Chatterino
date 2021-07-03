@@ -18,6 +18,7 @@ import configureStore from "./store";
 
 import { listenToAuthChanges } from "./actions/auth";
 import { listenToConnectionChanges } from "./actions/app";
+import { checkUserConnection } from "./actions/connection";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 	const user = useSelector(({ auth }) => auth.user);
@@ -36,18 +37,31 @@ const ChatApp = () => {
 	const dispatch = useDispatch();
 	const isOnline = useSelector(({ app }) => app.isOnline);
 	const isChecking = useSelector(({ auth }) => auth.isChecking);
+	const user = useSelector(({ auth }) => auth.user);
 
 	useEffect(() => {
-		dispatch(listenToAuthChanges());
-		dispatch(listenToConnectionChanges());
+		const unsubFromAuth = dispatch(listenToAuthChanges());
+		const unsubFromConnection = dispatch(listenToConnectionChanges());
 
 		// Unsub
 		return function cleanup() {
-			console.log("Unsub");
-			dispatch(listenToAuthChanges());
-			dispatch(listenToConnectionChanges());
+			unsubFromAuth();
+			unsubFromConnection();
 		};
 	}, [dispatch]);
+
+	useEffect(() => {
+		let unsubFromUserConnection;
+
+		if (user?.uid) {
+			unsubFromUserConnection = dispatch(checkUserConnection(user.uid));
+		}
+
+		// Unsub
+		return function cleanup() {
+			unsubFromUserConnection && unsubFromUserConnection();
+		};
+	}, [dispatch, user]);
 
 	if (!isOnline) {
 		return (

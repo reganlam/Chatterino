@@ -7,6 +7,7 @@ import {
 	CHATS_FETCH_INIT,
 	CHATS_FETCH_SUCCESS,
 	CHATS_SET_ACTIVE_CHAT,
+	CHATS_UPDATE_USER_STATE,
 } from "./types";
 
 // returns sortedChat[]
@@ -74,12 +75,18 @@ export const subscribeToChat = (chatId) => (dispatch) => {
 			chat.joinedUsers.map(async (user) => {
 				const userSnapshot = await user.get();
 
-				return { id: userSnapshot.id, ...userSnapshot.data() };
+				return userSnapshot.data();
 			})
 		);
 
 		chat.joinedUsers = joinedUsers;
 
 		dispatch({ type: CHATS_SET_ACTIVE_CHAT, chat });
+	});
+};
+
+export const subscribeToProfile = (userId, chatId) => (dispatch) => {
+	return api.subscribeToProfile(userId, async (user) => {
+		dispatch({ type: CHATS_UPDATE_USER_STATE, user, chatId });
 	});
 };

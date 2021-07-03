@@ -45,3 +45,12 @@ export const subscribeToChat = (chatId, onSubscribe) => {
 			onSubscribe(chat);
 		});
 };
+
+export const subscribeToProfile = (userId, onSubscribe) => {
+	return db
+		.collection("profiles")
+		.doc(userId)
+		.onSnapshot((snapshot) => {
+			onSubscribe(snapshot.data());
+		});
+};

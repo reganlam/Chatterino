@@ -5,7 +5,8 @@ import TitleView from "../components/shared/TitleView";
 import ChatUsersList from "../components/ChatUsersList";
 import ChatMessagesList from "../components/ChatMessagesList";
 import BaseLayout from "../layouts/Base";
-import { subscribeToChat } from "../actions/chats";
+import LoadingView from "../components/Shared/LoadingView";
+import { subscribeToChat, subscribeToProfile } from "../actions/chats";
 
 export default function ChatView() {
 	const { id } = useParams();
@@ -13,21 +14,36 @@ export default function ChatView() {
 	const dispatch = useDispatch();
 
 	const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
+	const joinedUsers = activeChat?.joinedUsers;
+
+	const subscribeToJoinedUsers = (users) => {
+		users.forEach((user) => {
+			dispatch(subscribeToProfile(user.uid, id));
+		});
+	};
 
 	useEffect(() => {
-		dispatch(subscribeToChat(id));
+		const unsubFromChat = dispatch(subscribeToChat(id));
 
-		// unsub
 		return function cleanup() {
-			subscribeToChat(id);
+			unsubFromChat();
 		};
-	}, [dispatch]);
+	}, []);
+
+	// TODO: unsub
+	useEffect(() => {
+		joinedUsers && subscribeToJoinedUsers(joinedUsers);
+	}, [joinedUsers]);
+
+	if (!activeChat) {
+		return <LoadingView />;
+	}
 
 	return (
 		<BaseLayout canGoBack={true}>
 			<div className="row no-gutters fh">
 				<div className="col-3 fh">
-					<ChatUsersList joinedUsers={activeChat?.joinedUsers} />
+					<ChatUsersList joinedUsers={joinedUsers} />
 				</div>
 				<div className="col-9 fh">
 					{<TitleView text={activeChat?.name} />}

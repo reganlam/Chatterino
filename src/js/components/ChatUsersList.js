@@ -13,7 +13,7 @@ export default function ChatUserList({ joinedUsers = [] }) {
           <li key={user.uid} className="item">
             <div className="item-status">
               <img src={user.avatar} alt="Profile" />
-              <span className="status online"></span>
+              <span className={`status ${user.status}`}></span>
             </div>
             <p className="name-time">
               <span className="name mr-2">{user.username}</span>
