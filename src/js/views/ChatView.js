@@ -4,9 +4,15 @@ import { useParams } from "react-router-dom";
 import TitleView from "../components/shared/TitleView";
 import ChatUsersList from "../components/ChatUsersList";
 import ChatMessagesList from "../components/ChatMessagesList";
+import MessageBox from "../components/MessageBox";
 import BaseLayout from "../layouts/Base";
 import LoadingView from "../components/Shared/LoadingView";
-import { subscribeToChat, subscribeToProfile } from "../actions/chats";
+import {
+	subscribeToChat,
+	subscribeToProfile,
+	subscribeToChatMessage,
+	sendChatMessage,
+} from "../actions/chats";
 
 export default function ChatView() {
 	const { id } = useParams();
@@ -14,6 +20,7 @@ export default function ChatView() {
 	const dispatch = useDispatch();
 
 	const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
+	const messages = useSelector(({ chats }) => chats.messages[id]);
 	const joinedUsers = activeChat?.joinedUsers;
 
 	const subscribeToJoinedUsers = (users) => {
@@ -24,6 +31,7 @@ export default function ChatView() {
 
 	useEffect(() => {
 		const unsubFromChat = dispatch(subscribeToChat(id));
+		dispatch(subscribeToChatMessage(id));
 
 		return function cleanup() {
 			unsubFromChat();
@@ -39,6 +47,11 @@ export default function ChatView() {
 		return <LoadingView />;
 	}
 
+	const sendMessage = (message) => {
+		// alert(JSON.stringify(message));
+		dispatch(sendChatMessage(message, id));
+	};
+
 	return (
 		<BaseLayout canGoBack={true}>
 			<div className="row no-gutters fh">
@@ -47,7 +60,8 @@ export default function ChatView() {
 				</div>
 				<div className="col-9 fh">
 					{<TitleView text={activeChat?.name} />}
-					<ChatMessagesList />
+					<ChatMessagesList messages={messages} />
+					<MessageBox onSubmit={sendMessage} />
 				</div>
 			</div>
 		</BaseLayout>

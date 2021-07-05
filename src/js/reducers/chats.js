@@ -64,7 +64,20 @@ const createChatReducer = () => {
 		}
 	);
 
-	return combineReducers({ joined, available, activeChats });
+	const messages = createReducer(
+		{},
+		{
+			CHATS_SET_MESSAGES: (state, action) => {
+				const { messages, chatId } = action;
+				const prevMessages = state[action.chatId] || [];
+
+				state[chatId] = [...prevMessages, ...messages];
+			},
+			CHATS_MESSAGE_SENT: (state, action) => {},
+		}
+	);
+
+	return combineReducers({ joined, available, activeChats, messages });
 };
 
 export default createChatReducer();

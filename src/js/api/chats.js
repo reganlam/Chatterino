@@ -54,3 +54,22 @@ export const subscribeToProfile = (userId, onSubscribe) => {
 			onSubscribe(snapshot.data());
 		});
 };
+
+export const sendChatMessage = (message, chatId) => {
+	return db
+		.collection("chats")
+		.doc(chatId)
+		.collection("messages")
+		.doc(message.timestamp)
+		.set(message);
+};
+
+export const subscribeToChatMessage = (chatId, onSubscribe) => {
+	return db
+		.collection("chats")
+		.doc(chatId)
+		.collection("messages")
+		.onSnapshot((snapshot) => {
+			onSubscribe(snapshot.docChanges());
+		});
+};

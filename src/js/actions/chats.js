@@ -8,6 +8,8 @@ import {
 	CHATS_FETCH_SUCCESS,
 	CHATS_SET_ACTIVE_CHAT,
 	CHATS_UPDATE_USER_STATE,
+	CHATS_MESSAGE_SENT,
+	CHATS_SET_MESSAGES,
 } from "./types";
 
 // returns sortedChat[]
@@ -88,5 +90,32 @@ export const subscribeToChat = (chatId) => (dispatch) => {
 export const subscribeToProfile = (userId, chatId) => (dispatch) => {
 	return api.subscribeToProfile(userId, async (user) => {
 		dispatch({ type: CHATS_UPDATE_USER_STATE, user, chatId });
+	});
+};
+
+export const sendChatMessage = (message, chatId) => (dispatch, getState) => {
+	const { userId } = getState().auth.user;
+	const user = db.collection("profiles").doc(userId);
+	message.author = user;
+
+	return api
+		.sendChatMessage(message, chatId)
+		.then((_) => dispatch({ type: CHATS_MESSAGE_SENT }));
+};
+
+export const subscribeToChatMessage = (chatId) => (dispatch) => {
+	return api.subscribeToChatMessage(chatId, async (messages) => {
+		// Destructurize Message Collection
+		const chatMessages = messages.map((message) => {
+			if (message.type === "added") {
+				return { id: message.doc.id, ...message.doc.data() };
+			}
+		});
+
+		return dispatch({
+			type: CHATS_SET_MESSAGES,
+			messages: chatMessages,
+			chatId,
+		});
 	});
 };
