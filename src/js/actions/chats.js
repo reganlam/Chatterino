@@ -89,7 +89,7 @@ export const subscribeToChat = (chatId) => (dispatch) => {
 };
 
 export const subscribeToProfile = (userId, chatId) => (dispatch) => {
-	return api.subscribeToProfile(userId, async (user) => {
+	return api.subscribeToProfile(userId, (user) => {
 		dispatch({ type: CHATS_UPDATE_USER_STATE, user, chatId });
 	});
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import TitleView from "../components/shared/TitleView";
@@ -19,6 +19,9 @@ export default function ChatView() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 
+	// useRef persists across renders which allows us to unsub from joined users
+	const unsubProfile = useRef({});
+
 	// Redux Store
 	const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
 	const messages = useSelector(({ chats }) => chats.messages[id]);
@@ -32,17 +35,15 @@ export default function ChatView() {
 		// Check if subscribed to prevent duplicate messages
 		if (!messagesSub) {
 			const unsubFromChatMessage = dispatch(subscribeToChatMessage(id));
-
-			// unsubFromChatMessage;
 			dispatch(registerChatMessageSub(id, unsubFromChatMessage));
 		}
 
 		return function cleanup() {
 			unsubFromChat();
+			unsubFromJoinedUsers();
 		};
 	}, []);
 
-	// TODO: unsub
 	useEffect(() => {
 		joinedUsers && subscribeToJoinedUsers(joinedUsers);
 	}, [joinedUsers]);
@@ -53,9 +54,19 @@ export default function ChatView() {
 
 	const subscribeToJoinedUsers = (users) => {
 		users.forEach((user) => {
-			dispatch(subscribeToProfile(user.uid, id));
+			if (!unsubProfile.current[user.uid]) {
+				unsubProfile.current[user.uid] = dispatch(
+					subscribeToProfile(user.uid, id)
+				);
+			}
 		});
 	};
+
+	function unsubFromJoinedUsers() {
+		Object.keys(unsubProfile.current).forEach((userId) =>
+			unsubProfile.current[userId]()
+		);
+	}
 
 	const sendMessage = (message) => {
 		// alert(JSON.stringify(message));
