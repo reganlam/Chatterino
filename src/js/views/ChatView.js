@@ -12,6 +12,7 @@ import {
 	subscribeToProfile,
 	subscribeToChatMessage,
 	sendChatMessage,
+	registerChatMessageSub,
 } from "../actions/chats";
 
 export default function ChatView() {
@@ -21,6 +22,7 @@ export default function ChatView() {
 
 	const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
 	const messages = useSelector(({ chats }) => chats.messages[id]);
+	const messagesSub = useSelector(({ chats }) => chats.subscription[id]);
 	const joinedUsers = activeChat?.joinedUsers;
 
 	const subscribeToJoinedUsers = (users) => {
@@ -31,7 +33,12 @@ export default function ChatView() {
 
 	useEffect(() => {
 		const unsubFromChat = dispatch(subscribeToChat(id));
-		dispatch(subscribeToChatMessage(id));
+
+		// Check if subscribed to prevent duplicate messages
+		if (!messagesSub) {
+			const unsubFromChatMessage = dispatch(subscribeToChatMessage(id));
+			dispatch(registerChatMessageSub(id, unsubFromChatMessage));
+		}
 
 		return function cleanup() {
 			unsubFromChat();

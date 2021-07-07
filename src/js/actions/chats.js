@@ -9,6 +9,7 @@ import {
 	CHATS_SET_ACTIVE_CHAT,
 	CHATS_UPDATE_USER_STATE,
 	CHATS_MESSAGE_SENT,
+	CHATS_REGISTER_MESSAGE_SUB,
 	CHATS_SET_MESSAGES,
 } from "./types";
 
@@ -127,5 +128,13 @@ export const subscribeToChatMessage = (chatId) => async (dispatch) => {
 			messages,
 			chatId,
 		});
+	});
+};
+
+export const registerChatMessageSub = (chatId, sub) => (dispatch) => {
+	return dispatch({
+		type: CHATS_REGISTER_MESSAGE_SUB,
+		chatId,
+		sub,
 	});
 };

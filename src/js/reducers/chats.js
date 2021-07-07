@@ -6,6 +6,7 @@ import {
 	CHATS_FETCH_RESET,
 	CHATS_FETCH_SUCCESS,
 	CHATS_JOIN_SUCCESS,
+	CHATS_REGISTER_MESSAGE_SUB,
 	CHATS_SET_ACTIVE_CHAT,
 	CHATS_UPDATE_USER_STATE,
 } from "../actions/types";
@@ -35,6 +36,15 @@ const createChatReducer = () => {
 				return action.available;
 			case CHATS_JOIN_SUCCESS:
 				return state.filter((chat) => chat.id != action.chat.id);
+			default:
+				return state;
+		}
+	};
+
+	const subscription = (state = [], action) => {
+		switch (action.type) {
+			case CHATS_REGISTER_MESSAGE_SUB:
+				return { ...state, [action.chatId]: action.sub };
 			default:
 				return state;
 		}
@@ -77,7 +87,13 @@ const createChatReducer = () => {
 		}
 	);
 
-	return combineReducers({ joined, available, activeChats, messages });
+	return combineReducers({
+		joined,
+		available,
+		activeChats,
+		messages,
+		subscription,
+	});
 };
 
 export default createChatReducer();
