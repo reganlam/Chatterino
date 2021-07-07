@@ -94,7 +94,7 @@ export const subscribeToProfile = (userId, chatId) => (dispatch) => {
 };
 
 export const sendChatMessage = (message, chatId) => (dispatch, getState) => {
-	const { userId } = getState().auth.user;
+	const userId = getState().auth.user.uid;
 	const user = db.collection("profiles").doc(userId);
 	message.author = user;
 
@@ -103,18 +103,28 @@ export const sendChatMessage = (message, chatId) => (dispatch, getState) => {
 		.then((_) => dispatch({ type: CHATS_MESSAGE_SENT }));
 };
 
-export const subscribeToChatMessage = (chatId) => (dispatch) => {
-	return api.subscribeToChatMessage(chatId, async (messages) => {
+export const subscribeToChatMessage = (chatId) => async (dispatch) => {
+	return api.subscribeToChatMessage(chatId, async (messagesSnapshot) => {
 		// Destructurize Message Collection
-		const chatMessages = messages.map((message) => {
+		const messages = messagesSnapshot.map((message) => {
 			if (message.type === "added") {
 				return { id: message.doc.id, ...message.doc.data() };
 			}
 		});
 
+		// Get author snapshot
+		const cache = {};
+		for await (let message of messages) {
+			if (!cache[message.author.id]) {
+				const userSnapshot = await message.author.get();
+				cache[userSnapshot.id] = userSnapshot.data();
+			}
+			message.author = cache[message.author.id];
+		}
+
 		return dispatch({
 			type: CHATS_SET_MESSAGES,
-			messages: chatMessages,
+			messages,
 			chatId,
 		});
 	});
