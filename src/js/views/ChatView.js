@@ -17,19 +17,14 @@ import {
 
 export default function ChatView() {
 	const { id } = useParams();
-
 	const dispatch = useDispatch();
 
+	// Redux Store
 	const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
 	const messages = useSelector(({ chats }) => chats.messages[id]);
 	const messagesSub = useSelector(({ chats }) => chats.subscription[id]);
-	const joinedUsers = activeChat?.joinedUsers;
 
-	const subscribeToJoinedUsers = (users) => {
-		users.forEach((user) => {
-			dispatch(subscribeToProfile(user.uid, id));
-		});
-	};
+	const joinedUsers = activeChat?.joinedUsers;
 
 	useEffect(() => {
 		const unsubFromChat = dispatch(subscribeToChat(id));
@@ -37,6 +32,8 @@ export default function ChatView() {
 		// Check if subscribed to prevent duplicate messages
 		if (!messagesSub) {
 			const unsubFromChatMessage = dispatch(subscribeToChatMessage(id));
+
+			// unsubFromChatMessage;
 			dispatch(registerChatMessageSub(id, unsubFromChatMessage));
 		}
 
@@ -53,6 +50,12 @@ export default function ChatView() {
 	if (!activeChat) {
 		return <LoadingView />;
 	}
+
+	const subscribeToJoinedUsers = (users) => {
+		users.forEach((user) => {
+			dispatch(subscribeToProfile(user.uid, id));
+		});
+	};
 
 	const sendMessage = (message) => {
 		// alert(JSON.stringify(message));

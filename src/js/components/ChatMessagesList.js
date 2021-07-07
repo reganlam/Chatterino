@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { formatTimestamp } from "../utils/time";
 
 export default function ChatMessagesList({ messages = [] }) {
 	const user = useSelector(({ auth }) => auth.user);
+	const messageBottom = useRef();
 
 	const isMessageAuthor = (message) => {
 		return message?.author.uid === user.uid ? "chat-right" : "chat-left";
 	};
+
+	const scrollToBottom = () => {
+		messageBottom.current.scrollIntoView();
+	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [messages]);
 
 	return (
 		<div className="chat-container">
@@ -34,6 +43,7 @@ export default function ChatMessagesList({ messages = [] }) {
 					</li>
 				))}
 			</ul>
+			<div ref={messageBottom}></div>
 		</div>
 	);
 }
