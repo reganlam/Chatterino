@@ -104,7 +104,7 @@ export const sendChatMessage = (message, chatId) => (dispatch, getState) => {
 		.then((_) => dispatch({ type: CHATS_MESSAGE_SENT }));
 };
 
-export const subscribeToChatMessage = (chatId) => async (dispatch) => {
+export const subscribeToChatMessage = (chatId) => (dispatch) => {
 	return api.subscribeToChatMessage(chatId, async (messagesSnapshot) => {
 		// Destructurize Message Collection
 		const messages = messagesSnapshot.map((message) => {

@@ -41,6 +41,8 @@ export default function ChatView() {
 		return function cleanup() {
 			unsubFromChat();
 			unsubFromJoinedUsers();
+
+			// NOTE: We do not unsubFromChatMessage because we do not reset chat message state. Only unsub on logout.
 		};
 	}, []);
 
@@ -62,9 +64,10 @@ export default function ChatView() {
 		});
 	};
 
+	// TODO: Transpile Error: es6 syntax not a function
 	function unsubFromJoinedUsers() {
-		Object.keys(unsubProfile.current).forEach((userId) =>
-			unsubProfile.current[userId]()
+		Object.keys(unsubProfile.current).forEach((k) =>
+			unsubProfile.current[k]()
 		);
 	}
 
