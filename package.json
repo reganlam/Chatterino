@@ -5,7 +5,13 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "watch": "webpack --config webpack.common.js --watch"
+    "watch": "webpack --config webpack.common.js --watch",
+    "build": "webpack --config webpack.prod.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "make:linux": "electron-builder --linux",
+    "make:macos": "electron-builder --mac",
+    "make:win": "electron-builder --win --x64"
   },
   "repository": {
     "type": "git",
@@ -13,6 +19,53 @@
   },
   "author": "",
   "license": "ISC",
+  "build": {
+    "productName": "Chatterino",
+    "appId": "com.lam.chatterino",
+    "compression": "maximum",
+    "files": [
+      "build/**/*",
+      "index.html",
+      "splash.html",
+      "splash.css",
+      "main.js",
+      "preload.js"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/images/react_app_logo.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 430,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "icon": "assets/images/react_app_logo.png",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
+      "category": "Development"
+    }
+  },
   "bugs": {
     "url": "https://github.com/reganlam/Chatterino/issues"
   },
@@ -21,7 +74,9 @@
     "@babel/core": "^7.14.6",
     "dotenv-webpack": "^7.0.3",
     "electron": "^13.1.2",
-    "electron-reload": "^1.5.0"
+    "electron-builder": "^22.11.7",
+    "electron-reload": "^1.5.0",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
     "@babel/preset-env": "^7.14.5",

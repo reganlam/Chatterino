@@ -28,7 +28,7 @@ function createLoadWindow() {
 
 function createWindow() {
 	const win = new BrowserWindow({
-		width: 1500,
+		width: 1400,
 		height: 800,
 		show: false,
 		webPreferences: {
@@ -53,10 +53,8 @@ app.whenReady().then(() => {
 	const mainApp = createWindow();
 
 	mainApp.once("ready-to-show", () => {
-		setTimeout(() => {
-			splash.destroy();
-			mainApp.show();
-		}, 1000);
+		splash.destroy();
+		mainApp.show();
 	});
 
 	app.on("activate", () => {
