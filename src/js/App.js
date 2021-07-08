@@ -85,7 +85,7 @@ const ChatApp = () => {
 						path="/chat/create"
 					/>
 					<PrivateRoute component={ChatView} path="/chat/:id" />
-					<PrivateRoute component={SettingsView} path="/settings" />
+					{/*<PrivateRoute component={SettingsView} path="/settings" />*/}
 					<PrivateRoute component={HomeView} path="/home" />
 				</Switch>
 			</div>

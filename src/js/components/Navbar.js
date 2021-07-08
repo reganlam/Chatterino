@@ -14,12 +14,12 @@ export default function Navbar({ canGoBack }) {
 			<nav className="chat-navbar-inner">
 				<div className="chat-navbar-inner-left">
 					{canGoBack && <BackButton />}
-					<Link
+					{/*					<Link
 						to="/settings"
 						className="btn btn-outline-secondary ml-2"
 					>
 						Settings
-					</Link>
+					</Link>*/}
 				</div>
 				<div className="chat-navbar-inner-right">
 					{user && (

@@ -7,10 +7,30 @@ if (isDev) {
 	require("electron-reload")(__dirname);
 }
 
+function createLoadWindow() {
+	const win = new BrowserWindow({
+		width: 450,
+		height: 110,
+		backgroundColor: "#f4f4f4",
+		frame: false,
+		transparent: true,
+		webPreferences: {
+			// Use node modules
+			nodeIntegration: false,
+			worldSafeExecuteJavaScript: true,
+			contextIsolation: true,
+		},
+	});
+
+	win.loadFile("splash.html");
+	return win;
+}
+
 function createWindow() {
 	const win = new BrowserWindow({
 		width: 1500,
 		height: 800,
+		show: false,
 		webPreferences: {
 			// Use node modules
 			nodeIntegration: false,
@@ -20,15 +40,24 @@ function createWindow() {
 		},
 	});
 
+	// isDev && win.webContents.openDevTools();
 	win.loadFile("index.html");
-	isDev && win.webContents.openDevTools();
+	return win;
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-	createWindow();
+	const splash = createLoadWindow();
+	const mainApp = createWindow();
+
+	mainApp.once("ready-to-show", () => {
+		setTimeout(() => {
+			splash.destroy();
+			mainApp.show();
+		}, 1000);
+	});
 
 	app.on("activate", () => {
 		// On macOS it's common to re-create a window in the app when the
@@ -36,6 +65,7 @@ app.whenReady().then(() => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();
 	});
 
+	// Notifications
 	ipcMain.on("notify", (e, message) => {
 		const notification = new Notification({
 			title: "Notification",
